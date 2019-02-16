@@ -227,7 +227,6 @@ def main():
     assemble_pipeline_g1.py -t /path/to/tmp -i /path/to/file1 /path/to/file2 -a spades -a skesa -a abyss
     """
 
-
     parser = argparse.ArgumentParser(description=description, usage=usage)
     parser.add_argument('--trimmomatic', default="bin/trimmomatic.jar", metavar="trimmomatic_jar_file", help='provide trimmomatic file if you want to use your own')
     parser.add_argument('-a', required=True, choices=supported_assemblers, action="append", help='assemblers to use')
