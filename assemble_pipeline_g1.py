@@ -1,4 +1,11 @@
 #! /projects/home/hpan48/anaconda3/bin/python3
+"""
+this is genome assembly tool for team1 group1
+author: hanying
+
+assumptions:
+
+"""
 import os
 import shutil
 import re
