@@ -4,37 +4,51 @@ this is genome assembly tool for team1 group1
 author: hanying
 
 assumptions:
-
+input files are phred33 PE files
 """
 import os
 import shutil
-import re
 import argparse
 
 
 def assemble_genomes(_tmp_dir, _assemblers):
-    run_spades(_tmp_dir)
+    quast_command = "quast.py -t 16 -o {0}/quast"
+    a = "  1> /dev/null".format(_tmp_dir)
+    for tool in _assemblers:
+        quast_command += eval("run_" + tool)(_tmp_dir)
+    # quast_command += " 1> /dev/null"
+    os.system(quast_command)
+
+
+def run_skesa(_tmp_dir):
+    os.system("skesa --fastq {0}/trimmed_1P.fastq,{0}/trimmed_2P.fastq --contigs_out {0}/contigs_500_skesa_21 --kmer 21 --min_contig 500".format(_tmp_dir))
+    print("-------------skesa done-------------")
+    return ""
 
 
 def run_spades(_tmp_dir):
-    # spades.py - 1 "../dataset/CGT""$i""_1.fq.gz" - 2 "../dataset/CGT""$i""_2.fq.gz" - o "RawRun/spades_""$i"
-    os.system("spades.py -1 {0}/trimmed_1P.fastq -2 {0}/trimmed_2P.fastq -s {0}/trimmed_U.fastq -o {0}/spades".format(_tmp_dir))
-    # os.system("spades.py --phred-offset 33 -1 {0}/trimmed_1P.fastq -2 {0}/trimmed_2P.fastq -s {0}/trimmed_U.fastq -o {0}/spades".format(_tmp_dir))
-    print("-------------spades done")
-    pass
+    os.system("spades.py --phred-offset 33 -1 {0}/trimmed_1P.fastq -2 {0}/trimmed_2P.fastq -s {0}/trimmed_U.fastq -o {0}/spades".format(_tmp_dir))
+    print("-------------spades done-------------")
+    return "{0}/spades/" % _tmp_dir
 
 
 def run_trim(trimmomatic_jar, _input_files, _tmp_dir, window, threshold, headcrop, crop):
-    trim_summary = os.popen("java -jar %s PE %s %s -baseout %s/trimmed.fastq HEADCROP:%d CROP: %d SLIDINGWINDOW:%d:%d MINLEN:100 2> &1" % (
-        trimmomatic_jar, _input_files[0], _input_files[1], _tmp_dir, headcrop, crop, window, threshold)).readlines()
+    command = "java -jar %s PE -threads 15 %s %s -baseout %s/trimmed.fastq" % (trimmomatic_jar, _input_files[0], _input_files[1], _tmp_dir)
+    if headcrop:
+        command += " HEADCROP:%d" % headcrop
+    if crop:
+        command += " CROP:%d" % crop
+    command += " SLIDINGWINDOW:%d:%d MINLEN:100 2>&1" % (window, threshold)
+    print(command)
+    trim_summary = os.popen(command).readlines()
+    # print(trim_summary)
     drop_rate = trim_summary[-2].strip().split()[-1][1:-2]
     os.system("cat {0}/trimmed_1U.fastq {0}/trimmed_2U.fastq > {0}/trimmed_U.fastq".format(_tmp_dir))
-    print("-------------trim_done")
     return float(drop_rate)
 
 
 def run_fastqc(_input_file, _tmp_dir):
-    os.system("fastqc --extract -t 8 -o %s %s 2> /dev/null 1> /dev/null" % (_tmp_dir, _input_file))
+    os.system("fastqc --extract -t 15 -o %s %s 2> /dev/null 1> /dev/null" % (_tmp_dir, _input_file))
 
 
 def check_crop(_tmp_dir, _fastqc_dirs):
@@ -57,8 +71,6 @@ def check_crop(_tmp_dir, _fastqc_dirs):
                     positions.append(position)
                     qualities.append(float(quality))
                 continue
-        print(qualities)
-        print(positions)
         i = 0
         while qualities[i] < 20:
             i += 1
@@ -95,6 +107,7 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
     while trim_condition is not False:
         os.system("rm -rf {0}/trimmed_*.fastq".format(tmp_dir))
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
+        print("-" * 10, drop_rate)
         # file name changes after trimming
         # for i, tmp in enumerate(zip(input_files, fastqc_dirs)):
         #     file, dir = tmp
@@ -106,10 +119,11 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
         # is_pass = os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0])).readline().split()[0] == "PASS" and \
         #           os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[1])).readline().split()[0] == "PASS"
 
-        if not drop_rate > 0.33 and trim_condition != window_steps[-1]:
+        if drop_rate > 33 and trim_condition != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
         else:
             trim_condition = False
+    print("-------------trim_done-------------")
 
 
 def main():
@@ -124,6 +138,7 @@ def main():
     parser.add_argument('-k', action="store_true", help='set this to keep tmp')
     parser.add_argument('--trimmomatic', default="bin/trimmomatic.jar", help='point to your trimmomatic file')
     parser.add_argument('--skip-crop', action="store_true", help='set to true to skip crop step')
+    parser.add_argument('--trim-only', action="store_true", help='set to true to skip assembly')
     args = parser.parse_args()
 
     if os.path.exists(args.t):
@@ -131,7 +146,9 @@ def main():
     os.mkdir(args.t)
 
     trim_files(args.i, args.t, args.trimmomatic)
-    # assemble_genomes(args.t, args.a)
+
+    if not args.trim_only:
+        assemble_genomes(args.t, args.a)
 
     if not args.k:
         os.removedirs(args.t)
