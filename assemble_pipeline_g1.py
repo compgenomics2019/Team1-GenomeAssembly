@@ -92,24 +92,24 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar):
             os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[1])).readline().split()[0] == "PASS"):
         trim_condition = [window_steps[0], 20, *check_crop(tmp_dir, fastqc_dirs)]
 
-    # while trim_condition is not False:
-    #     os.system("rm -rf {0}/trimmed_*.fastq".format(tmp_dir))
-    #     drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
-    #     # file name changes after trimming
-    #     # for i, tmp in enumerate(zip(input_files, fastqc_dirs)):
-    #     #     file, dir = tmp
-    #     #     shutil.rmtree(os.path.join(tmp_dir, dir))
-    #     #     run_fastqc(file, tmp_dir)
-    #     #     os.remove("%s/%s.html" % (tmp_dir, fastqc_dirs[i]))
-    #     #     os.remove("%s/%s.zip" % (tmp_dir, fastqc_dirs[i]))
-    #     #
-    #     # is_pass = os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0])).readline().split()[0] == "PASS" and \
-    #     #           os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[1])).readline().split()[0] == "PASS"
-    #
-    #     if not drop_rate > 0.33 and trim_condition != window_steps[-1]:
-    #         trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
-    #     else:
-    #         trim_condition = False
+    while trim_condition is not False:
+        os.system("rm -rf {0}/trimmed_*.fastq".format(tmp_dir))
+        drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, *trim_condition)
+        # file name changes after trimming
+        # for i, tmp in enumerate(zip(input_files, fastqc_dirs)):
+        #     file, dir = tmp
+        #     shutil.rmtree(os.path.join(tmp_dir, dir))
+        #     run_fastqc(file, tmp_dir)
+        #     os.remove("%s/%s.html" % (tmp_dir, fastqc_dirs[i]))
+        #     os.remove("%s/%s.zip" % (tmp_dir, fastqc_dirs[i]))
+        #
+        # is_pass = os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0])).readline().split()[0] == "PASS" and \
+        #           os.popen("grep \"Total Sequences\" %s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[1])).readline().split()[0] == "PASS"
+
+        if not drop_rate > 0.33 and trim_condition != window_steps[-1]:
+            trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
+        else:
+            trim_condition = False
 
 
 def main():
