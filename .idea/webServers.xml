@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f569fa17-dfad-44b3-ba48-f994731a3b57" name="7210" url="http://biogenome2019.biosci.gatech.edu">
+        <fileTransfer host="biogenome2019.biosci.gatech.edu" port="22" privateKey="$USER_HOME$/.ssh/id_rsa" rootFolder="/projects/home/hpan48" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
