@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78908e82-91dc-4c25-921d-a9ad520348e6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assemble_pipeline_g1.py" beforeDir="false" afterPath="$PROJECT_DIR$/assemble_pipeline_g1.py" afterDir="false" />
     </list>
@@ -12,17 +13,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/genome_assembly_pipeline$assemble_pipeline_g1.coverage" NAME="assemble_pipeline_g1 Coverage Results" MODIFIED="1550350359303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/genome_assembly_pipeline$assemble_pipeline_g1.coverage" NAME="assemble_pipeline_g1 Coverage Results" MODIFIED="1550367378850" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-914483311">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.4" value="1" />
+          <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -31,7 +33,7 @@
           <entry key="asf" value="1" />
           <entry key="gitignore" value="3" />
           <entry key="html" value="1" />
-          <entry key="md" value="1" />
+          <entry key="md" value="2" />
           <entry key="pl" value="1" />
           <entry key="png" value="1" />
           <entry key="py" value="1" />
@@ -44,7 +46,7 @@
         <counts>
           <entry key="HTML" value="1" />
           <entry key="Image" value="1" />
-          <entry key="Markdown" value="1" />
+          <entry key="Markdown" value="2" />
           <entry key="PLAIN_TEXT" value="13" />
           <entry key="Perl" value="1" />
           <entry key="Python" value="1" />
@@ -53,88 +55,35 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="Python Console" value="469" />
+          <entry key="Python Console" value="610" />
           <entry key="gitignore" value="41" />
-          <entry key="md" value="1503" />
+          <entry key="md" value="1679" />
           <entry key="pl" value="3" />
-          <entry key="py" value="8794" />
+          <entry key="py" value="10671" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Markdown" value="1503" />
+          <entry key="Markdown" value="1679" />
           <entry key="PLAIN_TEXT" value="41" />
           <entry key="Perl" value="3" />
-          <entry key="Python" value="9263" />
+          <entry key="Python" value="11281" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assemble_pipeline_g1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="701">
-              <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
+            <state relative-caret-position="379">
+              <caret line="42" column="64" selection-start-line="42" selection-start-column="64" selection-end-line="42" selection-end-column="64" />
               <folding>
                 <element signature="e#164#173#0" expanded="true" />
-                <marker date="1550350405445" expanded="true" signature="1137:1606" ph="..." />
-                <marker date="1550350405445" expanded="true" signature="1137:2056" ph="..." />
-                <marker date="1550350405445" expanded="true" signature="1284:1606" ph="..." />
-                <marker date="1550350405445" expanded="true" signature="1929:2056" ph="..." />
-                <marker date="1550350405445" expanded="true" signature="2546:2775" ph="..." />
-                <marker date="1550350405445" expanded="true" signature="3677:6042" ph="..." />
+                <marker date="1550428268635" expanded="true" signature="1382:2017" ph="..." />
+                <marker date="1550428268635" expanded="true" signature="1382:2515" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quast/report.tsv">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quast/report.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" selection-start-line="24" selection-end-line="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quast/transposed_report.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quast/transposed_report.tsv">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="519">
-                <caret line="46" column="48" lean-forward="true" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
-              </first_editor>
-              <second_editor />
             </state>
           </provider>
         </entry>
@@ -148,6 +97,14 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>os.system</find>
+      <find>os.popen</find>
+      <find>subprocess.call</find>
+      <find>_threads</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -158,8 +115,9 @@
         <option value="$PROJECT_DIR$/assembly_pipeline.pl" />
         <option value="$PROJECT_DIR$/tmp/f1_fastqc/fastqc_report.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/assemble_pipeline_g1.py" />
+        <option value="$PROJECT_DIR$/quast/report.tsv" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/assemble_pipeline_g1.py" />
       </list>
     </option>
   </component>
@@ -179,6 +137,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -186,11 +145,15 @@
               <item name="genome_assembly_pipeline" type="b2602c69:ProjectViewProjectNode" />
               <item name="genome_assembly_pipeline" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="genome_assembly_pipeline" type="b2602c69:ProjectViewProjectNode" />
+              <item name="genome_assembly_pipeline" type="462c0819:PsiDirectoryNode" />
+              <item name="quast" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -254,27 +217,35 @@
     </task>
     <servers />
   </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11661342" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11767838" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32920355" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3902655" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.30265486" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.18849558" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32920355" />
-      <window_info anchor="bottom" id="File Transfer" order="9" weight="0.3283186" />
+      <window_info active="true" anchor="bottom" id="File Transfer" order="9" visible="true" weight="0.3283186" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.20530973" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="13" weight="0.4256637" />
+      <window_info anchor="bottom" id="Python Console" order="13" weight="0.22212389" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -290,21 +261,11 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tmp/asf" />
-    <entry file="file://$PROJECT_DIR$/assembly_pipeline.pl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/assembly_pipeline.pl" />
     <entry file="file://$PROJECT_DIR$/tmp/f1_fastqc/fastqc_report.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="206" column="49" selection-start-line="206" selection-start-column="49" selection-end-line="206" selection-end-column="49" />
-          <folding>
-            <element signature="n#img#0;n#li#1;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" />
-            <element signature="n#src#0;n#img#0;n#li#1;n#ul#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -328,29 +289,15 @@
     <entry file="file://$PROJECT_DIR$/tmp/f2_fastqc/fastqc_data.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/screenshot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="63" selection-start-line="6" selection-start-column="63" selection-end-line="6" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/screenshot.png" />
+    <entry file="file://$PROJECT_DIR$/LICENSE" />
     <entry file="file://$PROJECT_DIR$/quast/report.tex">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/quast/transposed_report.tsv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quast/transposed_report.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/quast/report.tsv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+        <state relative-caret-position="210">
+          <caret line="14" column="22" lean-forward="true" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -361,36 +308,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/quast/report.tsv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/quast/transposed_report.tsv">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/assemble_pipeline_g1.py">
+    <entry file="file://$PROJECT_DIR$/quast/transposed_report.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="701">
-          <caret line="224" lean-forward="true" selection-start-line="224" selection-end-line="224" />
-          <folding>
-            <element signature="e#164#173#0" expanded="true" />
-            <marker date="1550350405445" expanded="true" signature="1137:1606" ph="..." />
-            <marker date="1550350405445" expanded="true" signature="1137:2056" ph="..." />
-            <marker date="1550350405445" expanded="true" signature="1284:1606" ph="..." />
-            <marker date="1550350405445" expanded="true" signature="1929:2056" ph="..." />
-            <marker date="1550350405445" expanded="true" signature="2546:2775" ph="..." />
-            <marker date="1550350405445" expanded="true" signature="3677:6042" ph="..." />
-          </folding>
+        <state relative-caret-position="60">
+          <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="519">
-            <caret line="46" column="48" lean-forward="true" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
+          <first_editor relative-caret-position="325">
+            <caret line="41" column="85" lean-forward="true" selection-start-line="41" selection-start-column="85" selection-end-line="41" selection-end-column="85" />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assemble_pipeline_g1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="42" column="64" selection-start-line="42" selection-start-column="64" selection-end-line="42" selection-end-column="64" />
+          <folding>
+            <element signature="e#164#173#0" expanded="true" />
+            <marker date="1550428268635" expanded="true" signature="1382:2017" ph="..." />
+            <marker date="1550428268635" expanded="true" signature="1382:2515" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

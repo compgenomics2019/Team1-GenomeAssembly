@@ -35,7 +35,9 @@ python3 assemble_pipeline_g1.py -k -i dataset/f1.fq.gz dataset/f2.fq.gz -a skesa
 
 `-t`         tmp folder. please be careful because tmp will be cleared when pipeline starts.
 
-`-n`        number of threads to use in each step
+`-n`        number of threads to use in trimming
+
+`-o`        output file name
 
 `-k`                    if you do not set this, tmp is cleared when pipeline finishes
 
