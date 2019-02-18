@@ -5,6 +5,7 @@ author: hanying
 
 assumptions:
 input files are phred33 PE files
+there is no adapter in the reads
 """
 import os
 import sys
@@ -15,7 +16,7 @@ import argparse
 import subprocess
 
 
-def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name):
+def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name, _seq_len):
     """
     run different assemblers and choose the best result
     :param _tmp_dir: tmp directory
@@ -23,8 +24,9 @@ def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name):
     :return: None
     """
     quast_command = ["quast.py", "-t", str(_threads), "-o", _tmp_dir + "/quast"]
+    print(_seq_len)
     for tool in _assemblers:
-        quast_command.extend(eval("run_" + tool)(_tmp_dir))
+        quast_command.extend(eval("run_" + tool)(_tmp_dir, _seq_len))
     print(quast_command)
     sys.stderr.write(str(quast_command) + "\n")
     sys.stderr.flush()
@@ -40,11 +42,39 @@ def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name):
     best = result.loc["score"].idxmax()
     print("-" * 20 + "quast finished" + "-" * 20)
     print(result)
-    subprocess.call(["mv", _tmp_dir + "/" + best + ".*", _out_name])
+    result.to_csv(_tmp_dir + "/final_quast.csv", header=True, index=True)
+    subprocess.call(["mv", _tmp_dir + "/" + best + ".fa", _out_name])
     print("best assembly is %s" % best)
 
 
-def run_abyss(_tmp_dir):
+def run_masurca(_tmp_dir, _seq_len):
+    """
+
+    :param _tmp_dir: tmp directory
+    :return: output contigs file name
+    """
+    with open(_tmp_dir + "/masurca_config", "w") as f:
+        f.write("DATA\n")
+        f.write("PE= pe %s 35 trimmed_1P.fastq trimmed_2P.fastq\n" % _seq_len)
+        f.write("END\n")
+        f.write("PARAMETERS\n")
+        f.write("NUM_THREADS = 16\n")
+        f.write("END")
+    current_dir = os.getcwd()
+    os.chdir(_tmp_dir)
+    subprocess.call(["masurca", "masurca_config"])
+    # subprocess.call([_tmp_dir + "/assemble.sh"])
+    print("~" * 5)
+    print(os.getcwd())
+    print(os.listdir("."))
+    print("~" * 5)
+    subprocess.call("./assemble.sh")
+    os.chdir(current_dir)
+    subprocess.call(["mv", "{0}/CA/9-terminator/geome.ctg.fasta".format(_tmp_dir), "{0}/masurca_contigs.fa".format(_tmp_dir)])
+    return [_tmp_dir + "masurca_contigs.fa"]
+
+
+def run_abyss(_tmp_dir, _fastqc_dir):
     """
     run abyss on trimmed file
     :param _tmp_dir: tmp directory
@@ -54,42 +84,48 @@ def run_abyss(_tmp_dir):
     abyss_command = ["abyss-pe", "in=trimmed_1P.fastq trimmed_2P.fastq".format(_tmp_dir), "-C", _tmp_dir]
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         abyss_command.append("se=trimmed_U.fastq".format(_tmp_dir))
-    # kmers = [21, 77, 99]
-    kmers = [77]
+    kmers = [21, 55, 77]
+    # kmers = [77]
     for k in kmers:
         subprocess.call([*abyss_command, "name=abyss-{0}".format(k), "k={0}".format(k)])
         out_files.append("%s/abyss-%d-contigs.fa" % (_tmp_dir, k))
     return out_files
 
 
-def run_skesa(_tmp_dir):
+def run_skesa(_tmp_dir, _fastqc_dir):
     """
     run skesa on trimmed file
     :param _tmp_dir: tmp directory
     :return: output contigs file name
     """
-    skesa_cmd = ["skesa", "--fastq", "{0}/trimmed_1P.fastq,{0}/trimmed_2P.fastq".format(_tmp_dir), "--contigs_out", "{0}/skesa_contigs_21_500".format(_tmp_dir), "--kmer", "21", "--min_contig", "500"]
+    skesa_cmd = ["skesa", "--fastq", "{0}/trimmed_1P.fastq,{0}/trimmed_2P.fastq".format(_tmp_dir), "--contigs_out", "{0}/skesa_contigs_21_500.fa".format(_tmp_dir), "--kmer", "21", "--min_contig",
+                 "500"]
     # print(skesa_cmd)
     subprocess.call(skesa_cmd)
+    with open(_tmp_dir + "/sspace_lib", "w") as f:
+        f.write("lib1 %s %s ")
+    sspace_command = ["perl", "SSPACE_Basic.pl", "-l", _tmp_dir + "/sspace_lib", "-s", "skesa_contigs_21_500.fa", "-x", "0", "-m", "32", "-o", "20", "-t", "0", "-k", "5", "-a", "0.70", "-n", "15", "-p", "0", "-v", "0",
+                      "-z", "0", "-g", "0", "-T", "1", "-b", _tmp_dir + "/sspace_contig.fa"]
+    subprocess.call(sspace_command)
     print("-" * 20 + "skesa finished" + "-" * 20)
-    return [_tmp_dir + "/skesa_contigs_21_500"]
+    return [_tmp_dir + "/skesa_contigs_21_500.fa"]
 
 
-def run_spades(_tmp_dir):
+def run_spades(_tmp_dir, _fastqc_dir):
     """
     run spades on trimmed file
     :param _tmp_dir: tmp directory
     :return: output contigs file name
     """
-    spades_cmd = ["spades.py", "-k", "21", "--phred-offset", "33", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
-    spades_cmd.append("--only-assembler")
+    spades_cmd = ["spades.py", "--phred-offset", "33", "-1", "{0}/trimmed_1P.fastq".format(_tmp_dir), "-2", "{0}/trimmed_2P.fastq".format(_tmp_dir), "-o", "{0}/spades".format(_tmp_dir)]
+    # spades_cmd.append("--only-assembler")
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         spades_cmd.extend(["-s", "{0}/trimmed_U.fastq".format(_tmp_dir)])
     print(spades_cmd)
     subprocess.call(spades_cmd)
     print("-" * 20 + "spades finished" + "-" * 20)
-    subprocess.call(["mv", "{0}/spades/contigs.fasta".format(_tmp_dir), "{0}/spades/spades_contigs.fasta".format(_tmp_dir)])
-    return ["%s/spades/spades_contigs.fasta" % _tmp_dir]
+    subprocess.call(["mv", "{0}/spades/contigs.fasta".format(_tmp_dir), "{0}/spades_contigs.fa".format(_tmp_dir)])
+    return ["%s/spades_contigs.fa" % _tmp_dir]
 
 
 def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir, _threads):
@@ -101,7 +137,7 @@ def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir, _threads):
     :return: None
     """
     command = ["java", "-jar", trimmomatic_jar, "PE", "-threads", str(_threads), _input_files[0], _input_files[1], "-baseout", _tmp_dir + "/trimmed.fastq", "MINLEN:100"]
-    print("fake", command)
+    # print("fake", command)
     subprocess.call(command)
     subprocess.call(["rm", "-rf", "{0}/trimmed_*U.fastq".format(_tmp_dir)])
 
@@ -187,7 +223,6 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, _threads, _skip_crop, wind
     return 0
 
 
-
 def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_crop):
     """
     Trim input files.
@@ -201,7 +236,11 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
 
     if skip_trim:
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir, threads)
-        return
+        length = "250"
+        with open(tmp_dir + "/trimmed_1P.fastq", "r") as f:
+            f.readline()
+            length = len(f.readline().strip())
+        return str(length)
 
     window_steps = [4, 8, 12, 20, 35, 50, 70, 100]
     fastqc_dirs = ["", ""]
@@ -229,7 +268,11 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
         try:
             if line1.split()[0] == "PASS" and line2.split()[0] == "PASS":
                 run_fake_trim(trimmomatic_jar, input_files, tmp_dir, threads)
-                return
+                length = "250"
+                with open(tmp_dir + "/trimmed_1P.fastq", "r") as f:
+                    f.readline()
+                    length = len(f.readline().strip())
+                return str(length)
         except IndexError:
             sys.stderr.write("read summary indexerror at %s" % input_files[0] + "\n")
             sys.stderr.write(str(line1) + --- + str(line2) + "\n")
@@ -245,10 +288,19 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
         else:
             trim_condition = False
         print("-" * 20 + "trim finished" + "-" * 20)
+    length = "250"
+    print("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]))
+    with open("%s/%s/fastqc_data.txt" % (tmp_dir, fastqc_dirs[0]), "r") as f:
+        for line in f:
+            if line.startswith("Sequence length"):
+                print(line)
+                length = line.strip().split()[-1]
+                break
+    return length
 
 
 def main():
-    supported_assemblers = ["spades", "skesa", "abyss"]
+    supported_assemblers = ["spades", "skesa", "abyss", "masurca"]
     description = """
     This is the genome assembly pipeline of team1 group1.
     For detail please see github(https://github.gatech.edu/compgenomics2019/Team1-GenomeAssembly)
@@ -275,15 +327,15 @@ def main():
         shutil.rmtree(args.t)
     os.mkdir(args.t)
     print("-" * 20 + "%s cleared. Now start." % args.t + "-" * 20)
-    trim_files(args.i, args.t, args.trimmomatic, args.n, args.assemble_only, args.skip_crop)
+    fastqc_dir = trim_files(args.i, args.t, args.trimmomatic, args.n, args.assemble_only, args.skip_crop)
     print(os.listdir(args.t))
     if not args.trim_only:
-        assemble_genomes(args.t, args.a, args.n, args.o)
+        assemble_genomes(args.t, args.a, args.n, args.o, fastqc_dir)
 
     if not args.k:
         shutil.rmtree(args.t)
     print("-" * 20 + "all finished" + "-" * 20)
-    print("assembled genome is in genome.fastq")
+    print("assembled genome is in %s" % args.o)
 
 
 if __name__ == "__main__":
