@@ -15,6 +15,8 @@ This pipeline also requires these software are installed and can be found in PAT
 
 [SEKSA](https://github.com/ncbi/SKESA)(optional)
 
+[MaSuRCA](https://github.com/alekseyzimin/masurca)(optional)
+
 [QUAST](https://github.com/ablab/quast)
 
 ## GETTING STARTED
