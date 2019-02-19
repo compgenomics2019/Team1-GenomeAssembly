@@ -25,7 +25,7 @@ This pipeline also requires these software are installed and can be found in PAT
 ```
 git clone https://github.gatech.edu/compgenomics2019/Team1-GenomeAssembly.git
 cd Team1-GenomeAssembly
-python3 assemble_pipeline_g1.py -i dataset/f1.fq.gz dataset/f2.fq.gz -a spades -o genome.fa
+python3 assemble_pipeline_g1.py -i dataset/f1.fq.gz dataset/f2.fq.gz -a spades -o scaffolds.fa
 ```
 #### Other arguments:
 

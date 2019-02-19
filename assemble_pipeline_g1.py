@@ -39,12 +39,20 @@ def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name, _seq_len):
         print("Abort")
         return
     result.loc["score"] = np.log(result.loc["Total length (>= 0 bp)"] * result.loc["N50"] / result.loc["# contigs"])
-    best = result.loc["score"].idxmax()
     print("-" * 20 + "quast finished" + "-" * 20)
-    # print(result)
+    best = result.loc["score"].idxmax()
     result.to_csv(_tmp_dir + "/final_quast.csv", header=True, index=True)
-    subprocess.call(["mv", _tmp_dir + "/" + best + ".fa", _out_name])
     print("best assembly is %s" % best)
+    if best.startswith("spades"):
+        subprocess.call(["mv", _tmp_dir + "/spades/scaffolds.fasta", _out_name])
+    elif best.startswith("masurca"):
+        subprocess.call(["mv", _tmp_dir + "/CA/9-terminator/geome.scf.fasta", _out_name])
+    elif best.startswith("skesa"):
+        subprocess.call(["mv", _tmp_dir + "/CA/9-terminator/geome.ctg.fasta", _out_name])
+    elif best.startswith("abyss"):
+        subprocess.call(["mv", _tmp_dir + "/%s.fa" % best, _out_name])
+    else:
+        print("check your report")
 
 
 def run_masurca(_tmp_dir, _seq_len):
@@ -67,10 +75,12 @@ def run_masurca(_tmp_dir, _seq_len):
     print(os.getcwd())
     print(os.listdir("."))
     print("~" * 5)
-    subprocess.call("./assemble.sh")
-    os.chdir(current_dir)
-    subprocess.call(["mv", "{0}/CA/9-terminator/genome.ctg.fasta".format(_tmp_dir), "{0}/masurca_contigs.fa".format(_tmp_dir)])
-    return [_tmp_dir + "/masurca_contigs.fa"]
+    if subprocess.call("./assemble.sh"):
+        os.chdir(current_dir)
+        subprocess.call(["mv", "{0}/CA/9-terminator/geome.ctg.fasta".format(_tmp_dir), "{0}/masurca_contigs.fa".format(_tmp_dir)])
+        return [_tmp_dir + "/masurca_contigs.fa"]
+    else:
+        return []
 
 
 def run_abyss(_tmp_dir, _fastqc_dir):
@@ -85,8 +95,8 @@ def run_abyss(_tmp_dir, _fastqc_dir):
         abyss_command.append("se=trimmed_U.fastq".format(_tmp_dir))
     kmers = [21, 55, 77]
     for k in kmers:
-        subprocess.call([*abyss_command, "name=abyss-{0}".format(k), "k={0}".format(k)])
-        out_files.append("%s/abyss-%d-contigs.fa" % (_tmp_dir, k))
+        if subprocess.call([*abyss_command, "name=abyss-{0}".format(k), "k={0}".format(k)]):
+            out_files.append("%s/abyss-%d-contigs.fa" % (_tmp_dir, k))
     return out_files
 
 
@@ -103,9 +113,11 @@ def run_skesa(_tmp_dir, _fastqc_dir):
         f.write("lib1 %s %s ")
     sspace_command = ["perl", "SSPACE_Basic.pl", "-l", _tmp_dir + "/sspace_lib", "-s", "skesa_contigs_21_500.fa", "-x", "0", "-m", "32", "-o", "20", "-t", "0", "-k", "5", "-a", "0.70", "-n", "15", "-p", "0", "-v", "0",
                       "-z", "0", "-g", "0", "-T", "1", "-b", _tmp_dir + "/sspace_contig.fa"]
-    subprocess.call(sspace_command)
-    print("-" * 20 + "skesa finished" + "-" * 20)
-    return [_tmp_dir + "/skesa_contigs_21_500.fa"]
+
+    if subprocess.call(sspace_command):
+        print("-" * 20 + "skesa finished" + "-" * 20)
+        return [_tmp_dir + "/skesa_contigs_21_500.fa"]
+    return []
 
 
 def run_spades(_tmp_dir, _fastqc_dir):
@@ -119,10 +131,12 @@ def run_spades(_tmp_dir, _fastqc_dir):
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         spades_cmd.extend(["-s", "{0}/trimmed_U.fastq".format(_tmp_dir)])
     print(spades_cmd)
-    subprocess.call(spades_cmd)
-    print("-" * 20 + "spades finished" + "-" * 20)
-    subprocess.call(["mv", "{0}/spades/contigs.fasta".format(_tmp_dir), "{0}/spades_contigs.fa".format(_tmp_dir)])
-    return ["%s/spades_contigs.fa" % _tmp_dir]
+    if subprocess.call(spades_cmd):
+        print("-" * 20 + "spades finished" + "-" * 20)
+        subprocess.call(["mv", "{0}/spades/contigs.fasta".format(_tmp_dir), "{0}/spades_contigs.fa".format(_tmp_dir)])
+        return ["%s/spades_contigs.fa" % _tmp_dir]
+    else:
+        return []
 
 
 def run_fake_trim(trimmomatic_jar, _input_files, _tmp_dir, _threads):
@@ -267,14 +281,13 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
                 return str(length)
         except IndexError:
             sys.stderr.write("read summary indexerror at %s" % input_files[0] + "\n")
-            # sys.stderr.write(str(line1) + "---" + str(line2) + "\n")
             return
 
     trim_condition = [window_steps[0], 20, *check_crop(tmp_dir, fastqc_dirs)]
     while trim_condition is not False:
         subprocess.call(["rm", "-rf", "{0}/trimmed_*.fastq".format(tmp_dir)])
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, threads, skip_crop, *trim_condition)
-        # print("-" * 10, drop_rate)
+        print("-" * 10, drop_rate)
         if drop_rate > 33 and trim_condition != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
         else:

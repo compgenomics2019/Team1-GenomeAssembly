@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78908e82-91dc-4c25-921d-a9ad520348e6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assemble_pipeline_g1.py" beforeDir="false" afterPath="$PROJECT_DIR$/assemble_pipeline_g1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -55,17 +57,17 @@
         <counts>
           <entry key="Python Console" value="674" />
           <entry key="gitignore" value="41" />
-          <entry key="md" value="1730" />
+          <entry key="md" value="1739" />
           <entry key="pl" value="3" />
-          <entry key="py" value="12019" />
+          <entry key="py" value="12382" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Markdown" value="1730" />
+          <entry key="Markdown" value="1739" />
           <entry key="PLAIN_TEXT" value="41" />
           <entry key="Perl" value="3" />
-          <entry key="Python" value="12693" />
+          <entry key="Python" value="13056" />
         </counts>
       </usages-collector>
     </session>
@@ -75,15 +77,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assemble_pipeline_g1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4090">
-              <caret line="277" column="30" lean-forward="true" selection-start-line="277" selection-start-column="30" selection-end-line="277" selection-end-column="30" />
+            <state relative-caret-position="-500">
+              <caret line="52" column="73" lean-forward="true" selection-start-line="52" selection-start-column="73" selection-end-line="52" selection-end-column="73" />
               <folding>
                 <element signature="e#164#173#0" expanded="true" />
-                <marker date="1550549228961" expanded="true" signature="382:387" ph="..." />
-                <marker date="1550549228961" expanded="true" signature="1534:2998" ph="..." />
-                <marker date="1550549228961" expanded="true" signature="1534:3939" ph="..." />
-                <marker date="1550549228961" expanded="true" signature="1662:2371" ph="..." />
-                <marker date="1550549228961" expanded="true" signature="2408:2413" ph="..." />
+                <marker date="1550589843434" expanded="true" signature="382:387" ph="..." />
+                <marker date="1550589843434" expanded="true" signature="1949:3465" ph="..." />
+                <marker date="1550589843434" expanded="true" signature="1949:4433" ph="..." />
+                <marker date="1550589843434" expanded="true" signature="2077:2830" ph="..." />
+                <marker date="1550589843434" expanded="true" signature="2867:2872" ph="..." />
               </folding>
             </state>
           </provider>
@@ -102,8 +104,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="255">
-                <caret line="17" column="60" lean-forward="true" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+              <first_editor relative-caret-position="319">
+                <caret line="26" column="23" lean-forward="true" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
               </first_editor>
               <second_editor />
             </state>
@@ -256,10 +258,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.09904154" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13304721" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -273,7 +275,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32920355" />
       <window_info anchor="bottom" id="File Transfer" order="9" weight="0.18318585" />
       <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.15542169" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="13" weight="0.18433735" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -358,8 +360,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="255">
-            <caret line="17" column="60" lean-forward="true" selection-start-line="17" selection-start-column="60" selection-end-line="17" selection-end-column="60" />
+          <first_editor relative-caret-position="319">
+            <caret line="26" column="23" lean-forward="true" selection-start-line="26" selection-start-column="23" selection-end-line="26" selection-end-column="23" />
           </first_editor>
           <second_editor />
         </state>
@@ -367,15 +369,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assemble_pipeline_g1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4090">
-          <caret line="277" column="30" lean-forward="true" selection-start-line="277" selection-start-column="30" selection-end-line="277" selection-end-column="30" />
+        <state relative-caret-position="-500">
+          <caret line="52" column="73" lean-forward="true" selection-start-line="52" selection-start-column="73" selection-end-line="52" selection-end-column="73" />
           <folding>
             <element signature="e#164#173#0" expanded="true" />
-            <marker date="1550549228961" expanded="true" signature="382:387" ph="..." />
-            <marker date="1550549228961" expanded="true" signature="1534:2998" ph="..." />
-            <marker date="1550549228961" expanded="true" signature="1534:3939" ph="..." />
-            <marker date="1550549228961" expanded="true" signature="1662:2371" ph="..." />
-            <marker date="1550549228961" expanded="true" signature="2408:2413" ph="..." />
+            <marker date="1550589843434" expanded="true" signature="382:387" ph="..." />
+            <marker date="1550589843434" expanded="true" signature="1949:3465" ph="..." />
+            <marker date="1550589843434" expanded="true" signature="1949:4433" ph="..." />
+            <marker date="1550589843434" expanded="true" signature="2077:2830" ph="..." />
+            <marker date="1550589843434" expanded="true" signature="2867:2872" ph="..." />
           </folding>
         </state>
       </provider>
