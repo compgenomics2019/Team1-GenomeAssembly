@@ -24,7 +24,7 @@ def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name, _seq_len):
     :return: None
     """
     quast_command = ["quast.py", "-t", str(_threads), "-o", _tmp_dir + "/quast"]
-    print(_seq_len)
+    # print(_seq_len)
     for tool in _assemblers:
         quast_command.extend(eval("run_" + tool)(_tmp_dir, _seq_len))
     print(quast_command)
@@ -41,7 +41,7 @@ def assemble_genomes(_tmp_dir, _assemblers, _threads, _out_name, _seq_len):
     result.loc["score"] = np.log(result.loc["Total length (>= 0 bp)"] * result.loc["N50"] / result.loc["# contigs"])
     best = result.loc["score"].idxmax()
     print("-" * 20 + "quast finished" + "-" * 20)
-    print(result)
+    # print(result)
     result.to_csv(_tmp_dir + "/final_quast.csv", header=True, index=True)
     subprocess.call(["mv", _tmp_dir + "/" + best + ".fa", _out_name])
     print("best assembly is %s" % best)
@@ -63,15 +63,14 @@ def run_masurca(_tmp_dir, _seq_len):
     current_dir = os.getcwd()
     os.chdir(_tmp_dir)
     subprocess.call(["masurca", "masurca_config"])
-    # subprocess.call([_tmp_dir + "/assemble.sh"])
     print("~" * 5)
     print(os.getcwd())
     print(os.listdir("."))
     print("~" * 5)
     subprocess.call("./assemble.sh")
     os.chdir(current_dir)
-    subprocess.call(["mv", "{0}/CA/9-terminator/geome.ctg.fasta".format(_tmp_dir), "{0}/masurca_contigs.fa".format(_tmp_dir)])
-    return [_tmp_dir + "masurca_contigs.fa"]
+    subprocess.call(["mv", "{0}/CA/9-terminator/genome.ctg.fasta".format(_tmp_dir), "{0}/masurca_contigs.fa".format(_tmp_dir)])
+    return [_tmp_dir + "/masurca_contigs.fa"]
 
 
 def run_abyss(_tmp_dir, _fastqc_dir):
@@ -85,7 +84,6 @@ def run_abyss(_tmp_dir, _fastqc_dir):
     if "trimmed_U.fastq" in os.listdir(_tmp_dir):
         abyss_command.append("se=trimmed_U.fastq".format(_tmp_dir))
     kmers = [21, 55, 77]
-    # kmers = [77]
     for k in kmers:
         subprocess.call([*abyss_command, "name=abyss-{0}".format(k), "k={0}".format(k)])
         out_files.append("%s/abyss-%d-contigs.fa" % (_tmp_dir, k))
@@ -100,7 +98,6 @@ def run_skesa(_tmp_dir, _fastqc_dir):
     """
     skesa_cmd = ["skesa", "--fastq", "{0}/trimmed_1P.fastq,{0}/trimmed_2P.fastq".format(_tmp_dir), "--contigs_out", "{0}/skesa_contigs_21_500.fa".format(_tmp_dir), "--kmer", "21", "--min_contig",
                  "500"]
-    # print(skesa_cmd)
     subprocess.call(skesa_cmd)
     with open(_tmp_dir + "/sspace_lib", "w") as f:
         f.write("lib1 %s %s ")
@@ -149,7 +146,6 @@ def run_fastqc(_input_file, _tmp_dir):
     :param _tmp_dir: tmp directory
     :return: None
     """
-    # FNULL = open(os.devnull, 'w')
     subprocess.call(["fastqc", "--extract", "-t", "15", "-o", _tmp_dir, _input_file], stderr=subprocess.DEVNULL)
 
 
@@ -209,13 +205,11 @@ def run_trim(trimmomatic_jar, _input_files, _tmp_dir, _threads, _skip_crop, wind
         if crop:
             command.append("CROP:%d" % crop)
     command.extend(["SLIDINGWINDOW:%d:%d" % (window, threshold), "MINLEN:100"])
-    # print(command)
     proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     proc.wait()
     out, trim_summary = proc.communicate()
     if trim_summary:
         trim_summary = trim_summary.decode("utf-8")
-        # print(trim_summary.split("\n"))
         drop_rate = trim_summary.split("\n")[-3].split()[-1][1:-2]
         with open("{0}/trimmed_U.fastq".format(_tmp_dir), "w") as f:
             subprocess.call(["cat", "{0}/trimmed_1U.fastq".format(_tmp_dir), "{0}/trimmed_2U.fastq".format(_tmp_dir)], stdout=f)
@@ -233,7 +227,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
     :param trimmomatic_jar: trimmomatic jar file
     :return: None
     """
-
     if skip_trim:
         run_fake_trim(trimmomatic_jar, input_files, tmp_dir, threads)
         length = "250"
@@ -244,7 +237,6 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
 
     window_steps = [4, 8, 12, 20, 35, 50, 70, 100]
     fastqc_dirs = ["", ""]
-    trim_condition = False
 
     # get fastqc for raw input
     for i, file in enumerate(input_files):
@@ -275,14 +267,14 @@ def trim_files(input_files, tmp_dir, trimmomatic_jar, threads, skip_trim, skip_c
                 return str(length)
         except IndexError:
             sys.stderr.write("read summary indexerror at %s" % input_files[0] + "\n")
-            sys.stderr.write(str(line1) + --- + str(line2) + "\n")
+            # sys.stderr.write(str(line1) + "---" + str(line2) + "\n")
             return
 
     trim_condition = [window_steps[0], 20, *check_crop(tmp_dir, fastqc_dirs)]
     while trim_condition is not False:
-        subprocess.call(["rm", "-rf", "{0}/trimmed_*U.fastq".format(tmp_dir)])
+        subprocess.call(["rm", "-rf", "{0}/trimmed_*.fastq".format(tmp_dir)])
         drop_rate = run_trim(trimmomatic_jar, input_files, tmp_dir, threads, skip_crop, *trim_condition)
-        print("-" * 10, drop_rate)
+        # print("-" * 10, drop_rate)
         if drop_rate > 33 and trim_condition != window_steps[-1]:
             trim_condition[0] = window_steps[window_steps.index(trim_condition[0]) + 1]
         else:
@@ -335,7 +327,7 @@ def main():
     if not args.k:
         shutil.rmtree(args.t)
     print("-" * 20 + "all finished" + "-" * 20)
-    print("assembled genome is in %s" % args.o)
+    # print("assembled genome is in %s" % args.o)
 
 
 if __name__ == "__main__":
